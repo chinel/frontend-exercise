@@ -9,13 +9,14 @@ export function Document(props) {
     <html>
       <head>
         <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Stopwatch Assignment</title>
         <script src={assets.client.js} defer />
       </head>
       <body>
         <div
           dangerouslySetInnerHTML={{
-            __html: ReactDOMServer.renderToString(props.children)
+            __html: ReactDOMServer.renderToString(props.children),
           }}
           data-app-root
         />
