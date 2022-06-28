@@ -1,8 +1,10 @@
+import React from "react";
+import Master from "../layout/master";
 const HomePage = () => {
   return (
-    <div>
+    <Master>
       <p>Home Page</p>
-    </div>
+    </Master>
   );
 };
 

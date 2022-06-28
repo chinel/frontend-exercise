@@ -1,13 +1,19 @@
-import './main.css'
+import "./main.css";
 
-import * as React from 'react'
+import * as React from "react";
 
-import { UniversalRouter } from './universal-router'
+import { UniversalRouter } from "./universal-router";
+
+import { Switch, Route } from "react-router-dom";
+import HomePage from "./pages";
 
 export function Root(props) {
   return (
     <UniversalRouter location={props.location}>
-      <code>Replace me with your app</code>
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+        {/* <Route path="/list/:id"/> */}
+      </Switch>
     </UniversalRouter>
-  )
+  );
 }
