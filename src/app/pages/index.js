@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import PauseIcon from "../icons/pauseIcon";
 import Master from "../layout/master";
+import { fetchStopWatches } from "../services/stopwatch.service";
 import { Button, List, ListItem } from "../styles/componentStyles";
 const HomePage = () => {
   const history = useHistory();
+  const [totalPages, setTotalPages] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [stopWatches, setStopWatches] = useState([]);
   const stopWatchDetails = (id) => {
     history.push({
       pathname: "/stopWatch",
@@ -12,6 +16,25 @@ const HomePage = () => {
     });
   };
 
+  const fetchMoreStopWatches = () => {
+    if (currentPage === totalPages) {
+      return;
+    }
+    setCurrentPage((prev) => prev + 1);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchStopWatches(currentPage);
+      const res = await data.json();
+      setCurrentPage(res.meta.currentPage);
+      setTotalPages(res.meta.totalPages);
+      setStopWatches((prev) => [...prev, ...res.result]);
+      console.log(res);
+    };
+
+    fetchData();
+  }, [currentPage]);
   return (
     <Master>
       <Button onClick={() => stopWatchDetails()}>New</Button>
@@ -22,7 +45,9 @@ const HomePage = () => {
           Hello <PauseIcon />
         </ListItem>
       </List>
-      <Button>More</Button>
+      {currentPage === totalPages && (
+        <Button onClick={fetchMoreStopWatches}>More</Button>
+      )}
     </Master>
   );
 };
