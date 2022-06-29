@@ -6,14 +6,14 @@ import { UniversalRouter } from "./universal-router";
 
 import { Switch, Route } from "react-router-dom";
 import HomePage from "./pages";
-import DetailsPage from "./pages/detail";
+import StopWatchPage from "./pages/stopWatch";
 
 export function Root(props) {
   return (
     <UniversalRouter location={props.location}>
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route path="/list/:id" component={DetailsPage} />
+        <Route path="/stopWatch" component={StopWatchPage} />
       </Switch>
     </UniversalRouter>
   );

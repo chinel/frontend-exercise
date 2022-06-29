@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import Master from "../layout/master";
 import {
   Button,
@@ -9,7 +10,8 @@ import {
   Timer,
 } from "../styles/componentStyles";
 
-const DetailsPage = () => {
+const StopWatchPage = () => {
+  const history = useHistory();
   return (
     <Master>
       <Timer>00:00:00.320</Timer>
@@ -43,11 +45,11 @@ const DetailsPage = () => {
       <DeleteButton>Delete</DeleteButton>
 
       <ButtonWrapper>
-        <Button>Home</Button>
+        <Button onClick={() => history.push("/")}>Home</Button>
         <Button>Reset</Button>
       </ButtonWrapper>
     </Master>
   );
 };
 
-export default DetailsPage;
+export default StopWatchPage;
