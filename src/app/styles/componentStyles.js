@@ -22,7 +22,7 @@ export const DeleteButton = styled.button`
 `;
 
 export const List = styled.div`
-  padding: ${(props) => (props.noPad ? "2rem" : "8rem")} 0.3rem;
+  padding: ${(props) => (props.noPad ? "2rem" : "4rem")} 0.3rem;
   width: 100%;
 `;
 

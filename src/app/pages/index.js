@@ -29,6 +29,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(currentPage + "");
       const data = await fetchStopWatches(currentPage);
       const res = await data.json();
       setCurrentPage(res.meta.currentPage);
@@ -44,7 +45,10 @@ const HomePage = () => {
       <List>
         {stopWatches.length > 0 &&
           stopWatches.map((item) => (
-            <ListItem key={item._id} onClick={() => stopWatchDetails(1)}>
+            <ListItem
+              key={item._id}
+              onClick={() => stopWatchDetails(item_._id)}
+            >
               {formatTimeStamp(item.started)}
             </ListItem>
           ))}
