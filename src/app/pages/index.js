@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { formatTimeStamp } from "../helpers/utils";
 import PauseIcon from "../icons/pauseIcon";
 import Master from "../layout/master";
 import { fetchStopWatches } from "../services/stopwatch.service";
 import { Button, List, ListItem } from "../styles/componentStyles";
+
 const HomePage = () => {
   const history = useHistory();
   const [totalPages, setTotalPages] = useState(null);
@@ -17,6 +19,7 @@ const HomePage = () => {
   };
   console.log(totalPages);
   console.log(currentPage);
+  console.log(stopWatches);
   const fetchMoreStopWatches = () => {
     if (currentPage === totalPages) {
       return;
@@ -39,11 +42,16 @@ const HomePage = () => {
     <Master>
       <Button onClick={() => stopWatchDetails()}>New</Button>
       <List>
-        <ListItem onClick={() => stopWatchDetails(1)}>Hello</ListItem>
-        <ListItem>Hello</ListItem>
-        <ListItem active={true}>
+        {stopWatches.length > 0 &&
+          stopWatches.map((item) => (
+            <ListItem key={item._id} onClick={() => stopWatchDetails(1)}>
+              {formatTimeStamp(item.started)}
+            </ListItem>
+          ))}
+
+        {/* <ListItem active={true}>
           Hello <PauseIcon />
-        </ListItem>
+        </ListItem> */}
       </List>
 
       {currentPage !== totalPages && (

@@ -1,9 +1,17 @@
-const formatTimeStamp = (timeStamp) => {
-  const timeStampDifference = new Date().getTime() - timeStamp;
-  let milliseconds = parseInt((timeStampDifference % 1000) / 100);
-  let seconds = Math.floor((timeStampDifference / 1000) % 60);
-  let minutes = Math.floor((timeStampDifference / (1000 * 60)) % 60);
-  let hours = Math.floor((timeStampDifference / (1000 * 60 * 60)) % 24);
+export const formatTimeStamp = (timeStamp) => {
+  let diffTime = Math.abs(new Date().getTime() - new Date(timeStamp).getTime());
+  let days = diffTime / (24 * 60 * 60 * 1000);
+  let hours = (days % 1) * 24;
+  let minutes = (hours % 1) * 60;
+  let secs = (minutes % 1) * 60;
+  let milliSec = (secs % 1) * 1000;
+  [days, hours, minutes, secs, milliSec] = [
+    Math.floor(days),
+    Math.floor(hours),
+    Math.floor(minutes),
+    Math.floor(secs),
+    Math.floor(milliSec),
+  ];
 
-  return `${hours}:${minutes}:${seconds}.${milliseconds}`;
+  return `${hours + days * 24}:${minutes}:${secs}.${milliSec}`;
 };
