@@ -15,7 +15,8 @@ const HomePage = () => {
       ...(id && { state: { id } }),
     });
   };
-
+  console.log(totalPages);
+  console.log(currentPage);
   const fetchMoreStopWatches = () => {
     if (currentPage === totalPages) {
       return;
@@ -30,7 +31,6 @@ const HomePage = () => {
       setCurrentPage(res.meta.currentPage);
       setTotalPages(res.meta.totalPages);
       setStopWatches((prev) => [...prev, ...res.result]);
-      console.log(res);
     };
 
     fetchData();
@@ -45,7 +45,8 @@ const HomePage = () => {
           Hello <PauseIcon />
         </ListItem>
       </List>
-      {currentPage === totalPages && (
+
+      {currentPage !== totalPages && (
         <Button onClick={fetchMoreStopWatches}>More</Button>
       )}
     </Master>
