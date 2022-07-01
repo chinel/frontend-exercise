@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { AppContext } from "../context/stopWatch.context";
 import { formatTimeStamp } from "../helpers/utils";
 import Master from "../layout/master";
-import { fetchStopWatch } from "../services/stopwatch.service";
+import { fetchStopWatch, toggleStopWatch } from "../services/stopwatch.service";
 import {
   Button,
   ButtonWrapper,
@@ -46,7 +46,10 @@ const StopWatchPage = () => {
   useEffect(() => {
     let interval;
 
-    if (stopWatchDetials) {
+    if (
+      stopWatchDetials &&
+      runningStopWatches.includes(stopWatchDetials.__id)
+    ) {
       interval = setInterval(() => {
         setTimer((time) => time + 1);
       }, 1);
@@ -55,9 +58,9 @@ const StopWatchPage = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [timer]);
+  }, [timer, state]);
 
-  const pauseOrResumeStopWatch = () => {
+  const pauseOrResumeStopWatch = async () => {
     runningStopWatches.includes(stopWatchDetials.__id)
       ? dispatch({
           type: "REMOVE_STOP_WATCH",
@@ -67,6 +70,14 @@ const StopWatchPage = () => {
           type: "ADD_STOP_WATCH",
           payload: stopWatchDetials.__id,
         });
+    try {
+      const timeStamp = new Date().getTime();
+      await toggleStopWatch({ time: timeStamp }, stopWatchDetials.__id);
+      await fetchStopWatchDetails();
+    } catch (error) {
+      console.log(error);
+      setError("Unable to toggle stop watch!!. Try refreshing the page");
+    }
   };
 
   return (
@@ -81,8 +92,22 @@ const StopWatchPage = () => {
           <ButtonWrapper>
             <ButtonWrapper>
               <Button>Lap</Button>
-              <Button color="#340e0d" textColor="#fd4438">
-                Stop
+              <Button
+                onClick={pauseOrResumeStopWatch}
+                color={
+                  runningStopWatches.includes(stopWatchDetials.__id)
+                    ? "#340e0d"
+                    : "#19340d"
+                }
+                textColor={
+                  runningStopWatches.includes(stopWatchDetials.__id)
+                    ? "#fd4438"
+                    : "#56fd38"
+                }
+              >
+                {runningStopWatches.includes(stopWatchDetials.__id)
+                  ? " Stop"
+                  : "Start"}
               </Button>
             </ButtonWrapper>
           </ButtonWrapper>
