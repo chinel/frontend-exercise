@@ -9,6 +9,8 @@ import {
   ErrorMessage,
   List,
   ListItem,
+  Loader,
+  loadingAnimation,
 } from "../styles/componentStyles";
 
 const HomePage = () => {
@@ -23,9 +25,6 @@ const HomePage = () => {
       ...(id && { state: { id } }),
     });
   };
-  console.log(totalPages);
-  console.log(currentPage);
-  console.log(stopWatches);
   const fetchMoreStopWatches = () => {
     if (currentPage === totalPages) {
       return;
@@ -38,7 +37,6 @@ const HomePage = () => {
       try {
         const data = await fetchStopWatches(currentPage);
         const res = await data.json();
-        console.log(data);
         if (data.ok) {
           setCurrentPage(res.meta.currentPage);
           setTotalPages(res.meta.totalPages);
@@ -56,7 +54,7 @@ const HomePage = () => {
     <Master>
       <Button onClick={() => stopWatchDetails()}>New</Button>
       <List>
-        {stopWatches.length > 0 &&
+        {stopWatches.length > 0 ? (
           stopWatches.map((item) => (
             <ListItem
               key={item._id}
@@ -64,7 +62,10 @@ const HomePage = () => {
             >
               {formatTimeStamp(item.started)}
             </ListItem>
-          ))}
+          ))
+        ) : (
+          <Loader />
+        )}
 
         {/* <ListItem active={true}>
           Hello <PauseIcon />
