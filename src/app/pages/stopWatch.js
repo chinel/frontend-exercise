@@ -4,6 +4,7 @@ import { AppContext } from "../context/stopWatch.context";
 import { formatTimeStamp } from "../helpers/utils";
 import Master from "../layout/master";
 import {
+  deleteStopWatch,
   fetchStopWatch,
   resetStopWatch,
   toggleStopWatch,
@@ -103,6 +104,19 @@ const StopWatchPage = () => {
     }
   };
 
+  const deleteWatch = async () => {
+    setProgress(true);
+    try {
+      await deleteStopWatch(stopWatchDetials.__id);
+      setProgress(false);
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+      setError("Unable to delete stop watch!!. Try refreshing the page");
+      setProgress(false);
+    }
+  };
+
   return (
     <Master>
       {stopWatchDetials ? (
@@ -144,7 +158,7 @@ const StopWatchPage = () => {
               ))}
           </List>
 
-          <DeleteButton>Delete</DeleteButton>
+          <DeleteButton onClick={deleteWatch}>Delete</DeleteButton>
 
           <ButtonWrapper>
             <Button onClick={() => history.push("/")}>Home</Button>
