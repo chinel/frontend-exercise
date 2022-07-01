@@ -1,8 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import StopWatchLaps from "../components/stopWatchLaps";
+import StopWatchTimer from "../components/timer";
 import { AppContext } from "../context/stopWatch.context";
-import { formatTimeStamp, timeStampDiff } from "../helpers/utils";
+import {
+  formatTimeStamp,
+  getHighestTimeStamp,
+  timeStampDiff,
+} from "../helpers/utils";
 import Master from "../layout/master";
 import {
   createStopWatchLaps,
@@ -29,7 +34,7 @@ const StopWatchPage = () => {
   const { id } = useParams();
   const [stopWatchDetials, setStopWatchDetails] = useState(null);
   const [error, setError] = useState("");
-  const [timer, setTimer] = useState(null);
+
   const [progress, setProgress] = useState(false);
   const runningStopWatches = state.runningStopWatches;
   const laps = stopWatchDetials ? stopWatchDetials.laps.reverse() : [];
@@ -41,7 +46,6 @@ const StopWatchPage = () => {
       if (data.ok) {
         console.log(res);
         setStopWatchDetails(res.result);
-        setTimer(res.result.started);
         setError("");
       }
     } catch (error) {
@@ -52,23 +56,6 @@ const StopWatchPage = () => {
   useEffect(() => {
     fetchStopWatchDetails();
   }, [id]);
-
-  useEffect(() => {
-    let interval;
-
-    if (
-      stopWatchDetials &&
-      runningStopWatches.includes(stopWatchDetials.__id)
-    ) {
-      interval = setInterval(() => {
-        setTimer((time) => time + 1);
-      }, 1);
-    }
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [timer, state]);
 
   const pauseOrResumeStopWatch = async () => {
     setProgress(true);
@@ -138,12 +125,11 @@ const StopWatchPage = () => {
     <Master>
       {stopWatchDetials ? (
         <React.Fragment>
-          <Timer
-            dangerouslySetInnerHTML={{
-              __html: formatTimeStamp(timer),
-            }}
-          ></Timer>
-
+          {/*timer*/}
+          <StopWatchTimer
+            stopWatchDetials={stopWatchDetials}
+            runningStopWatches={runningStopWatches}
+          />
           <ButtonWrapper>
             <Button onClick={createLaps}>Lap</Button>
             <Button

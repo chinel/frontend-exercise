@@ -1,11 +1,13 @@
 import React from "react";
-import { timeStampDiff } from "../helpers/utils";
+import { getHighestTimeStamp, timeStampDiff } from "../helpers/utils";
 import { LapItem, List } from "../styles/componentStyles";
 
 const StopWatchLaps = (props) => {
   const { stopWatchDetials } = props;
   const laps = stopWatchDetials ? stopWatchDetials.laps.reverse() : [];
-
+  const highestTimeStampIndex = stopWatchDetials
+    ? getHighestTimeStamp(stopWatchDetials.started, stopWatchDetials.laps)
+    : null;
   return (
     <List noPad>
       {stopWatchDetials.laps.length > 0 &&
@@ -13,7 +15,7 @@ const StopWatchLaps = (props) => {
           <LapItem
             key={index}
             color={
-              index === 0
+              highestTimeStampIndex === index
                 ? "#4dcb63"
                 : index === stopWatchDetials.laps.length - 1
                 ? "#ff2323"

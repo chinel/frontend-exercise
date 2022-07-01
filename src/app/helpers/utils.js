@@ -37,3 +37,26 @@ export const timeStampDiff = (timeStamp1, timeStamp2) => {
     hours + days * 24
   }</span>:<span>${minutes}</span>:<span>${secs}</span>:<span>${milliSec}</span>`;
 };
+
+export const getHighestTimeStamp = (startedTimeStamp, arrayOfTimeStamp) => {
+  const diff = arrayOfTimeStamp.map((item) => item - startedTimeStamp);
+  const getMilliseconds = diff.map((item) => getTimeInMilliseconds(item));
+
+  const max = Math.max(...getMilliseconds);
+  console.log(getMilliseconds.indexOf(max));
+  // console.log(new Date().getMilliseconds())
+  return getMilliseconds.indexOf(max);
+};
+
+const getTimeInMilliseconds = (timeStamp) => {
+  const date = new Date(timeStamp * 1000);
+
+  let addUpTime = 0;
+  addUpTime += date.getHours() * 60 * 60;
+  addUpTime += date.getMinutes() * 60;
+  addUpTime += date.getSeconds();
+  addUpTime *= 1000;
+  addUpTime += date.getMilliseconds();
+
+  return addUpTime;
+};
