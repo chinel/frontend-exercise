@@ -3,7 +3,11 @@ import { useHistory, useParams } from "react-router-dom";
 import { AppContext } from "../context/stopWatch.context";
 import { formatTimeStamp } from "../helpers/utils";
 import Master from "../layout/master";
-import { fetchStopWatch, toggleStopWatch } from "../services/stopwatch.service";
+import {
+  fetchStopWatch,
+  resetStopWatch,
+  toggleStopWatch,
+} from "../services/stopwatch.service";
 import {
   Button,
   ButtonWrapper,
@@ -80,6 +84,17 @@ const StopWatchPage = () => {
     }
   };
 
+  const resetWatch = async () => {
+    try {
+      const timeStamp = new Date().getTime();
+      await resetStopWatch({ started: timeStamp }, stopWatchDetials.__id);
+      await fetchStopWatchDetails();
+    } catch (error) {
+      console.log(error);
+      setError("Unable to reset stop watch!!. Try refreshing the page");
+    }
+  };
+
   return (
     <Master>
       {stopWatchDetials ? (
@@ -125,7 +140,7 @@ const StopWatchPage = () => {
 
           <ButtonWrapper>
             <Button onClick={() => history.push("/")}>Home</Button>
-            <Button>Reset</Button>
+            <Button onClick={resetWatch}>Reset</Button>
           </ButtonWrapper>
         </React.Fragment>
       ) : (
