@@ -90,6 +90,18 @@ export const ErrorMessage = styled.div`
   font-size: 0.8rem;
 `;
 
+export const ProgressMessage = styled.div`
+  color: #ffffff;
+  background-color: #4dcb63;
+  border-color: #56bb68;
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+`;
+
 export const Loader = styled.div`
   border: 3px solid #f3f3f3;
   border-radius: 50%;
