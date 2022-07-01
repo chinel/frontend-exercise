@@ -4,13 +4,19 @@ import { formatTimeStamp } from "../helpers/utils";
 import PauseIcon from "../icons/pauseIcon";
 import Master from "../layout/master";
 import { fetchStopWatches } from "../services/stopwatch.service";
-import { Button, List, ListItem } from "../styles/componentStyles";
+import {
+  Button,
+  ErrorMessage,
+  List,
+  ListItem,
+} from "../styles/componentStyles";
 
 const HomePage = () => {
   const history = useHistory();
   const [totalPages, setTotalPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [stopWatches, setStopWatches] = useState([]);
+  const [error, setError] = useState("");
   const stopWatchDetails = (id) => {
     history.push({
       pathname: "/stopWatch",
@@ -29,12 +35,19 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(currentPage + "");
-      const data = await fetchStopWatches(currentPage);
-      const res = await data.json();
-      setCurrentPage(res.meta.currentPage);
-      setTotalPages(res.meta.totalPages);
-      setStopWatches((prev) => [...prev, ...res.result]);
+      try {
+        const data = await fetchStopWatches(currentPage);
+        const res = await data.json();
+        console.log(data);
+        if (data.ok) {
+          setCurrentPage(res.meta.currentPage);
+          setTotalPages(res.meta.totalPages);
+          setStopWatches((prev) => [...prev, ...res.result]);
+          setError("");
+        }
+      } catch (error) {
+        setError("Oops an error occured!!. Try refreshing the page");
+      }
     };
 
     fetchData();
@@ -57,8 +70,8 @@ const HomePage = () => {
           Hello <PauseIcon />
         </ListItem> */}
       </List>
-
-      {currentPage !== totalPages && (
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {stopWatches.length > 0 && currentPage !== totalPages && (
         <Button onClick={fetchMoreStopWatches}>More</Button>
       )}
     </Master>

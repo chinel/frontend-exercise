@@ -62,3 +62,15 @@ export const Timer = styled.div`
     font-size: calc(3rem + 0.01vw);
   }
 `;
+
+export const ErrorMessage = styled.div`
+  color: #ffffff;
+  background-color: #ff2323;
+  border-color: #ff3d3d;
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  font-size: 0.6rem;
+`;
