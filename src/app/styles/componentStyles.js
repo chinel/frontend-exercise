@@ -75,7 +75,7 @@ export const ErrorMessage = styled.div`
   margin-bottom: 1rem;
   border: 1px solid transparent;
   border-radius: 0.25rem;
-  font-size: 0.6rem;
+  font-size: 0.8rem;
 `;
 
 export const Loader = styled.div`
