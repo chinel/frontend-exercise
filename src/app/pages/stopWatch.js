@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { AppContext } from "../context/stopWatch.context";
 import { formatTimeStamp } from "../helpers/utils";
 import Master from "../layout/master";
 import { fetchStopWatch } from "../services/stopwatch.service";
@@ -16,10 +17,12 @@ import {
 
 const StopWatchPage = () => {
   const history = useHistory();
+  const { state, dispatch } = useContext(AppContext);
   const { id } = useParams();
   const [stopWatchDetials, setStopWatchDetails] = useState(null);
   const [error, setError] = useState("");
   const [timer, setTimer] = useState(null);
+  const runningStopWatches = state.runningStopWatches;
 
   const fetchStopWatchDetails = async () => {
     try {
@@ -53,6 +56,18 @@ const StopWatchPage = () => {
       clearInterval(interval);
     };
   }, [timer]);
+
+  const pauseOrResumeStopWatch = () => {
+    runningStopWatches.includes(stopWatchDetials.__id)
+      ? dispatch({
+          type: "REMOVE_STOP_WATCH",
+          payload: stopWatchDetials.__id,
+        })
+      : dispatch({
+          type: "ADD_STOP_WATCH",
+          payload: stopWatchDetials.__id,
+        });
+  };
 
   return (
     <Master>
