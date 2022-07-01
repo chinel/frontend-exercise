@@ -77,6 +77,8 @@ const HomePage = () => {
   return (
     <Master>
       <Button onClick={newStopWatch}>New</Button>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {progress && <ProgressMessage>Processing...</ProgressMessage>}
       <List>
         {stopWatches.length > 0 ? (
           stopWatches.map((item, index) => (
@@ -96,8 +98,7 @@ const HomePage = () => {
           Hello <PauseIcon />
         </ListItem> */}
       </List>
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-      {progress && <ProgressMessage>Processing...</ProgressMessage>}
+
       {stopWatches.length > 0 && currentPage !== totalPages && (
         <Button onClick={fetchMoreStopWatches}>More</Button>
       )}

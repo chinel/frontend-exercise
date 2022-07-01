@@ -143,28 +143,31 @@ const StopWatchPage = () => {
               __html: formatTimeStamp(timer),
             }}
           ></Timer>
+
           <ButtonWrapper>
-            <ButtonWrapper>
-              <Button onClick={createLaps}>Lap</Button>
-              <Button
-                onClick={pauseOrResumeStopWatch}
-                color={
-                  runningStopWatches.includes(stopWatchDetials.__id)
-                    ? "#340e0d"
-                    : "#19340d"
-                }
-                textColor={
-                  runningStopWatches.includes(stopWatchDetials.__id)
-                    ? "#fd4438"
-                    : "#56fd38"
-                }
-              >
-                {runningStopWatches.includes(stopWatchDetials.__id)
-                  ? " Stop"
-                  : "Start"}
-              </Button>
-            </ButtonWrapper>
+            <Button onClick={createLaps}>Lap</Button>
+            <Button
+              onClick={pauseOrResumeStopWatch}
+              color={
+                runningStopWatches.includes(stopWatchDetials.__id)
+                  ? "#340e0d"
+                  : "#19340d"
+              }
+              textColor={
+                runningStopWatches.includes(stopWatchDetials.__id)
+                  ? "#fd4438"
+                  : "#56fd38"
+              }
+            >
+              {runningStopWatches.includes(stopWatchDetials.__id)
+                ? " Stop"
+                : "Start"}
+            </Button>
           </ButtonWrapper>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+
+          {progress && <ProgressMessage>Processing...</ProgressMessage>}
+
           <StopWatchLaps stopWatchDetials={stopWatchDetials} />
 
           <DeleteButton onClick={deleteWatch}>Delete</DeleteButton>
@@ -177,8 +180,6 @@ const StopWatchPage = () => {
       ) : (
         <Loader />
       )}
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-      {progress && <ProgressMessage>Processing...</ProgressMessage>}
     </Master>
   );
 };
