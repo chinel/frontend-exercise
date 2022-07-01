@@ -88,6 +88,7 @@ export const ErrorMessage = styled.div`
   border: 1px solid transparent;
   border-radius: 0.25rem;
   font-size: 0.8rem;
+  width: 100%;
 `;
 
 export const ProgressMessage = styled.div`
@@ -100,6 +101,7 @@ export const ProgressMessage = styled.div`
   border: 1px solid transparent;
   border-radius: 0.25rem;
   font-size: 0.8rem;
+  width: 100%;
 `;
 
 export const Loader = styled.div`

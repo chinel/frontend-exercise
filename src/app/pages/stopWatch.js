@@ -16,6 +16,7 @@ import {
   LapItem,
   List,
   Loader,
+  ProgressMessage,
   Timer,
 } from "../styles/componentStyles";
 
@@ -26,6 +27,7 @@ const StopWatchPage = () => {
   const [stopWatchDetials, setStopWatchDetails] = useState(null);
   const [error, setError] = useState("");
   const [timer, setTimer] = useState(null);
+  const [progress, setProgress] = useState(false);
   const runningStopWatches = state.runningStopWatches;
 
   const fetchStopWatchDetails = async () => {
@@ -65,6 +67,7 @@ const StopWatchPage = () => {
   }, [timer, state]);
 
   const pauseOrResumeStopWatch = async () => {
+    setProgress(true);
     runningStopWatches.includes(stopWatchDetials.__id)
       ? dispatch({
           type: "REMOVE_STOP_WATCH",
@@ -77,21 +80,26 @@ const StopWatchPage = () => {
     try {
       const timeStamp = new Date().getTime();
       await toggleStopWatch({ time: timeStamp }, stopWatchDetials.__id);
+      setProgress(false);
       await fetchStopWatchDetails();
     } catch (error) {
       console.log(error);
       setError("Unable to toggle stop watch!!. Try refreshing the page");
+      setProgress(false);
     }
   };
 
   const resetWatch = async () => {
+    setProgress(true);
     try {
       const timeStamp = new Date().getTime();
       await resetStopWatch({ started: timeStamp }, stopWatchDetials.__id);
+      setProgress(false);
       await fetchStopWatchDetails();
     } catch (error) {
       console.log(error);
       setError("Unable to reset stop watch!!. Try refreshing the page");
+      setProgress(false);
     }
   };
 
@@ -147,6 +155,7 @@ const StopWatchPage = () => {
         <Loader />
       )}
       {error && <ErrorMessage>{error}</ErrorMessage>}
+      {progress && <ProgressMessage>Processing...</ProgressMessage>}
     </Master>
   );
 };

@@ -13,6 +13,7 @@ import {
   List,
   ListItem,
   Loader,
+  ProgressMessage,
 } from "../styles/componentStyles";
 
 const HomePage = () => {
@@ -22,17 +23,20 @@ const HomePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [stopWatches, setStopWatches] = useState([]);
   const [error, setError] = useState("");
+  const [progress, setProgress] = useState(false);
 
   const stopWatchDetails = (id) => {
     history.push(`/stopWatch/${id}`);
   };
 
   const newStopWatch = async () => {
+    setProgress(true);
     try {
       const timeStamp = new Date().getTime();
       console.log({ started: timeStamp });
       const data = await createStopWatch({ started: timeStamp });
       const res = await data.json();
+      setProgress(false);
       dispatch({
         type: "ADD_STOP_WATCH",
         payload: res.__id,
@@ -40,6 +44,7 @@ const HomePage = () => {
       history.push(`/stopWatch/${res.__id}`);
     } catch (error) {
       setError("Unable to create stop watch!!. Try refreshing the page");
+      setProgress(false);
     }
   };
 
@@ -92,6 +97,7 @@ const HomePage = () => {
         </ListItem> */}
       </List>
       {error && <ErrorMessage>{error}</ErrorMessage>}
+      {progress && <ProgressMessage>Processing...</ProgressMessage>}
       {stopWatches.length > 0 && currentPage !== totalPages && (
         <Button onClick={fetchMoreStopWatches}>More</Button>
       )}
