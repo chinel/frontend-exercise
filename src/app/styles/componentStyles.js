@@ -56,13 +56,25 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const Timer = styled.div`
-  font-size: calc(6rem + 0.01vw);
+  font-size: calc(4rem + 0.01vw);
   font-weight: 200;
   text-align: center;
   padding: 2rem 0rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  column-gap: 1rem;
+
+  span {
+    display: inline-block;
+    width: 4rem;
+  }
 
   @media (max-width: 680px) {
-    font-size: calc(3rem + 0.01vw);
+    font-size: 2rem;
+    span {
+      column-gap: 0.1rem;
+    }
   }
 `;
 

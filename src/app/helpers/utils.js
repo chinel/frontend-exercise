@@ -13,5 +13,7 @@ export const formatTimeStamp = (timeStamp) => {
     Math.floor(milliSec),
   ];
 
-  return `${hours + days * 24}:${minutes}:${secs}.${milliSec}`;
+  return `<span>${
+    hours + days * 24
+  }</span>:<span>${minutes}</span>:<span>${secs}</span>:<span>${milliSec}</span>`;
 };

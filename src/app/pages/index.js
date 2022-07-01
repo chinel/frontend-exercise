@@ -75,9 +75,13 @@ const HomePage = () => {
       <List>
         {stopWatches.length > 0 ? (
           stopWatches.map((item, index) => (
-            <ListItem key={index} onClick={() => stopWatchDetails(item_._id)}>
-              {formatTimeStamp(item.started)}
-            </ListItem>
+            <ListItem
+              key={index}
+              onClick={() => stopWatchDetails(item.__id)}
+              dangerouslySetInnerHTML={{
+                __html: formatTimeStamp(item.started),
+              }}
+            ></ListItem>
           ))
         ) : (
           <Loader />
