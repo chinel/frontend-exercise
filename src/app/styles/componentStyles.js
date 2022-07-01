@@ -47,6 +47,11 @@ export const ListItem = styled(Item)`
 export const LapItem = styled(Item)`
   color: ${(props) => (props.color ? props.color : "#ffffff")};
   justify-content: space-between;
+
+  div {
+    display: flex;
+    column-gap: 0.3rem;
+  }
 `;
 export const ButtonWrapper = styled.div`
   width: 100%;
@@ -72,9 +77,7 @@ export const Timer = styled.div`
 
   @media (max-width: 680px) {
     font-size: 2rem;
-    span {
-      column-gap: 0.1rem;
-    }
+    column-gap: 0.1rem;
   }
 `;
 

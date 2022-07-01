@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import StopWatchLaps from "../components/stopWatchLaps";
 import { AppContext } from "../context/stopWatch.context";
-import { formatTimeStamp } from "../helpers/utils";
+import { formatTimeStamp, timeStampDiff } from "../helpers/utils";
 import Master from "../layout/master";
 import {
+  createStopWatchLaps,
   deleteStopWatch,
   fetchStopWatch,
   resetStopWatch,
@@ -30,6 +32,7 @@ const StopWatchPage = () => {
   const [timer, setTimer] = useState(null);
   const [progress, setProgress] = useState(false);
   const runningStopWatches = state.runningStopWatches;
+  const laps = stopWatchDetials ? stopWatchDetials.laps.reverse() : [];
 
   const fetchStopWatchDetails = async () => {
     try {
@@ -117,6 +120,20 @@ const StopWatchPage = () => {
     }
   };
 
+  const createLaps = async () => {
+    setProgress(true);
+    try {
+      const timeStamp = new Date().getTime();
+      await createStopWatchLaps({ time: timeStamp }, stopWatchDetials.__id);
+      setProgress(false);
+      await fetchStopWatchDetails();
+    } catch (error) {
+      console.log(error);
+      setError("Unable to create stop watch laps!!. Try refreshing the page");
+      setProgress(false);
+    }
+  };
+
   return (
     <Master>
       {stopWatchDetials ? (
@@ -128,7 +145,7 @@ const StopWatchPage = () => {
           ></Timer>
           <ButtonWrapper>
             <ButtonWrapper>
-              <Button>Lap</Button>
+              <Button onClick={createLaps}>Lap</Button>
               <Button
                 onClick={pauseOrResumeStopWatch}
                 color={
@@ -148,15 +165,7 @@ const StopWatchPage = () => {
               </Button>
             </ButtonWrapper>
           </ButtonWrapper>
-          <List noPad>
-            {stopWatchDetials.laps.length > 0 &&
-              stopWatchDetials.laps.map((item, index) => (
-                <LapItem key={index}>
-                  <span>Lap 1</span>
-                  <span>10:0:0:302</span>
-                </LapItem>
-              ))}
-          </List>
+          <StopWatchLaps stopWatchDetials={stopWatchDetials} />
 
           <DeleteButton onClick={deleteWatch}>Delete</DeleteButton>
 
