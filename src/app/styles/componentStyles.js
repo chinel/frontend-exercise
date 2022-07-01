@@ -78,10 +78,8 @@ export const Timer = styled.div`
   }
 `;
 
-export const ErrorMessage = styled.div`
+export const Message = styled.div`
   color: #ffffff;
-  background-color: #ff2323;
-  border-color: #ff3d3d;
   position: relative;
   padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
@@ -89,19 +87,17 @@ export const ErrorMessage = styled.div`
   border-radius: 0.25rem;
   font-size: 0.8rem;
   width: 100%;
+  margin-top: 1rem;
 `;
 
-export const ProgressMessage = styled.div`
-  color: #ffffff;
+export const ErrorMessage = styled(Message)`
+  background-color: #ff2323;
+  border-color: #ff3d3d;
+`;
+
+export const ProgressMessage = styled(Message)`
   background-color: #4dcb63;
   border-color: #56bb68;
-  position: relative;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-  font-size: 0.8rem;
-  width: 100%;
 `;
 
 export const Loader = styled.div`
