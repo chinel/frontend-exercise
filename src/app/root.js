@@ -13,7 +13,7 @@ export function Root(props) {
     <UniversalRouter location={props.location}>
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route path="/stopWatch" component={StopWatchPage} />
+        <Route path="/stopWatch/:id" component={StopWatchPage} />
       </Switch>
     </UniversalRouter>
   );

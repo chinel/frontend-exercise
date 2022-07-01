@@ -11,7 +11,10 @@ export const fetchStopWatches = async (page) => {
 };
 
 export const createStopWatch = async (data) => {
-  const response = await fetch(`/api/stopwatches`, { ...options, body: data });
+  const response = await fetch(`/api/stopwatches`, {
+    ...options,
+    body: JSON.stringify(data),
+  });
   return response;
 };
 

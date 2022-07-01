@@ -10,7 +10,7 @@ export const AppContextProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(
     appReducer,
     initialState,
-    (initial) => JSON.parse(localStorage.getItem("stopWatchData") || initial)
+    (initial) => JSON.parse(localStorage.getItem("stopWatchData")) || initial
   );
   useEffect(() => {
     localStorage.setItem("stopWatchData", JSON.stringify(state));

@@ -1,4 +1,4 @@
-function appReducer(state, action) {
+const appReducer = (state, action) => {
   switch (action.type) {
     case "ADD_STOP_WATCH": {
       return {
@@ -15,7 +15,9 @@ function appReducer(state, action) {
         runningStopWatches: [...filteredData],
       };
     }
+    default:
+      return state;
   }
-}
+};
 
 export default appReducer;

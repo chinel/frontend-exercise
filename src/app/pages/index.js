@@ -1,30 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { AppContext } from "../context/stopWatch.context";
 import { formatTimeStamp } from "../helpers/utils";
-import PauseIcon from "../icons/pauseIcon";
 import Master from "../layout/master";
-import { fetchStopWatches } from "../services/stopwatch.service";
+import {
+  createStopWatch,
+  fetchStopWatches,
+} from "../services/stopwatch.service";
 import {
   Button,
   ErrorMessage,
   List,
   ListItem,
   Loader,
-  loadingAnimation,
 } from "../styles/componentStyles";
 
 const HomePage = () => {
   const history = useHistory();
+  const { dispatch } = useContext(AppContext);
   const [totalPages, setTotalPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [stopWatches, setStopWatches] = useState([]);
   const [error, setError] = useState("");
+
   const stopWatchDetails = (id) => {
-    history.push({
-      pathname: "/stopWatch",
-      ...(id && { state: { id } }),
-    });
+    history.push(`/stopWatch/${id}`);
   };
+
+  const newStopWatch = async () => {
+    try {
+      const timeStamp = new Date().getTime();
+      console.log({ started: timeStamp });
+      const data = await createStopWatch({ started: timeStamp });
+      const res = await data.json();
+      dispatch({
+        type: "ADD_STOP_WATCH",
+        payload: res.__id,
+      });
+      history.push(`/stopWatch/${res.__id}`);
+    } catch (error) {
+      setError("Unable to create stop watch!!. Try refreshing the page");
+    }
+  };
+
   const fetchMoreStopWatches = () => {
     if (currentPage === totalPages) {
       return;
@@ -50,16 +68,14 @@ const HomePage = () => {
 
     fetchData();
   }, [currentPage]);
+
   return (
     <Master>
-      <Button onClick={() => stopWatchDetails()}>New</Button>
+      <Button onClick={newStopWatch}>New</Button>
       <List>
         {stopWatches.length > 0 ? (
-          stopWatches.map((item) => (
-            <ListItem
-              key={item._id}
-              onClick={() => stopWatchDetails(item_._id)}
-            >
+          stopWatches.map((item, index) => (
+            <ListItem key={index} onClick={() => stopWatchDetails(item_._id)}>
               {formatTimeStamp(item.started)}
             </ListItem>
           ))
