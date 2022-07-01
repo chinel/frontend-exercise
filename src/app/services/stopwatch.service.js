@@ -14,3 +14,8 @@ export const createStopWatch = async (data) => {
   const response = await fetch(`/api/stopwatches`, { ...options, body: data });
   return response;
 };
+
+export const fetchStopWatch = async (id) => {
+  const response = await fetch(`/api/stopwatches/${id}`);
+  return response;
+};
