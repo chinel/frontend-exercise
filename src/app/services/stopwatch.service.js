@@ -33,6 +33,15 @@ export const resetStopWatch = async (data, id) => {
   });
   return response;
 };
+export const deleteStopWatch = async (id) => {
+  const response = await fetch(`/api/stopwatches/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response;
+};
 
 export const fetchStopWatch = async (id) => {
   const response = await fetch(`/api/stopwatches/${id}`);
