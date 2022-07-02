@@ -9,7 +9,6 @@ const useFetchStopWatch = (setError, setTimer, id) => {
       const data = await fetchStopWatch(id);
       const res = await data.json();
       if (data.ok) {
-        console.log(res);
         setStopWatchDetails(res.result);
         setTimer(res.result.started);
         setError("");

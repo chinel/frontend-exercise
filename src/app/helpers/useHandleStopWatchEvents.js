@@ -31,7 +31,6 @@ const useHandleStopWatchEvents = (
       await fetchStopWatchDetails();
     } catch (error) {
       setError("Unable to toggle stop watch!!. Try refreshing the page");
-      console.log(error);
       setProgress(false);
     }
   };
@@ -45,7 +44,6 @@ const useHandleStopWatchEvents = (
       await fetchStopWatchDetails();
     } catch (error) {
       setError("Unable to reset stop watch!!. Try refreshing the page");
-      console.log(error);
       setProgress(false);
     }
   };
@@ -58,7 +56,6 @@ const useHandleStopWatchEvents = (
       history.push("/");
     } catch (error) {
       setError("Unable to delete stop watch!!. Try refreshing the page");
-      console.log(error);
       setProgress(false);
     }
   };
@@ -72,7 +69,6 @@ const useHandleStopWatchEvents = (
       await fetchStopWatchDetails();
     } catch (error) {
       setError("Unable to create stop watch laps!!. Try refreshing the page");
-      console.log(error);
       setProgress(false);
     }
   };
