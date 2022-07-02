@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { AppContext } from "../context/stopWatch.context";
+import useHandleStopWatchTimer from "../helpers/useHandleStopWatchTimer";
 import { formatTimeStamp } from "../helpers/utils";
 import PauseIcon from "../icons/pauseIcon";
 import { ListItem } from "../styles/componentStyles";
@@ -8,26 +9,11 @@ import { ListItem } from "../styles/componentStyles";
 const StopWatchListItem = ({ item }) => {
   const history = useHistory();
   const { state } = useContext(AppContext);
-  const [timer, setTimer] = useState(null);
   const runningStopWatches = state?.runningStopWatches;
-
+  useHandleStopWatchTimer(runningStopWatches, item.__id, state);
   const stopWatchDetails = (id) => {
     history.push(`/stopWatch/${id}`);
   };
-
-  useEffect(() => {
-    let interval;
-
-    if (runningStopWatches.includes(item.__id)) {
-      interval = setInterval(() => {
-        setTimer((time) => time + 1);
-      }, 10);
-    }
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [timer]);
 
   return (
     <ListItem

@@ -4,6 +4,7 @@ import StopWatchLaps from "../components/stopWatchLaps";
 import { AppContext } from "../context/stopWatch.context";
 import useFetchStopWatch from "../helpers/useFetchStopWatch";
 import useHandleStopWatchEvents from "../helpers/useHandleStopWatchEvents";
+import useHandleStopWatchTimer from "../helpers/useHandleStopWatchTimer";
 import {
   formatTimeStamp,
   getHighestTimeStamp,
@@ -34,9 +35,13 @@ const StopWatchPage = () => {
   const { state, dispatch } = useContext(AppContext);
   const { id } = useParams();
   const [error, setError] = useState("");
-  const [timer, setTimer] = useState(null);
   const [progress, setProgress] = useState(false);
   const runningStopWatches = state?.runningStopWatches;
+  const { timer, setTimer } = useHandleStopWatchTimer(
+    runningStopWatches,
+    stopWatchDetials?.__id,
+    state
+  );
   const { fetchStopWatchDetails, stopWatchDetials } = useFetchStopWatch(
     setError,
     setTimer,
@@ -50,20 +55,6 @@ const StopWatchPage = () => {
       fetchStopWatchDetails,
       dispatch
     );
-
-  useEffect(() => {
-    let interval;
-
-    if (runningStopWatches.includes(stopWatchDetials?.__id)) {
-      interval = setInterval(() => {
-        setTimer((time) => time + 1);
-      }, 10);
-    }
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [timer, state]);
 
   return (
     <Master>
