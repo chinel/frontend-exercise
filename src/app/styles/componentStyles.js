@@ -38,20 +38,24 @@ export const Item = styled.div`
   align-items: center;
   column-gap: 0.5rem;
   font-size: 1.4rem;
+  div {
+    display: flex;
+    column-gap: 0.3rem;
+  }
 `;
 
 export const ListItem = styled(Item)`
   color: ${(props) => (props.active ? "#747474" : "#ffffff")};
+  display: flex;
+  column-gap: 0.8rem;
+  div {
+    width: 10rem;
+  }
 `;
 
 export const LapItem = styled(Item)`
   color: ${(props) => (props.color ? props.color : "#ffffff")};
   justify-content: space-between;
-
-  div {
-    display: flex;
-    column-gap: 0.3rem;
-  }
 `;
 export const ButtonWrapper = styled.div`
   width: 100%;

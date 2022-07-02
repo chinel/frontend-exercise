@@ -1,18 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import StopWatchListItem from "../components/stopWatchListItem";
 import { AppContext } from "../context/stopWatch.context";
-import { formatTimeStamp } from "../helpers/utils";
+import useFetchStopWatches from "../helpers/useFetchStopWatches";
 import Master from "../layout/master";
-import {
-  createStopWatch,
-  fetchStopWatches,
-} from "../services/stopwatch.service";
+import { createStopWatch } from "../services/stopwatch.service";
 import {
   Button,
   ErrorMessage,
   List,
-  ListItem,
   Loader,
   ProgressMessage,
 } from "../styles/componentStyles";
@@ -20,17 +16,15 @@ import {
 const HomePage = () => {
   const history = useHistory();
   const { dispatch } = useContext(AppContext);
-  const [totalPages, setTotalPages] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [stopWatches, setStopWatches] = useState([]);
   const [error, setError] = useState("");
   const [progress, setProgress] = useState(false);
+  const { fetchMoreStopWatches, totalPages, currentPage, stopWatches } =
+    useFetchStopWatches(setError);
 
   const newStopWatch = async () => {
     setProgress(true);
     try {
       const timeStamp = new Date().getTime();
-      console.log({ started: timeStamp });
       const data = await createStopWatch({ started: timeStamp });
       const res = await data.json();
       setProgress(false);
@@ -44,32 +38,6 @@ const HomePage = () => {
       setProgress(false);
     }
   };
-
-  const fetchMoreStopWatches = () => {
-    if (currentPage === totalPages) {
-      return;
-    }
-    setCurrentPage((prev) => prev + 1);
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchStopWatches(currentPage);
-        const res = await data.json();
-        if (data.ok) {
-          setCurrentPage(res.meta.currentPage);
-          setTotalPages(res.meta.totalPages);
-          setStopWatches((prev) => [...prev, ...res.result]);
-          setError("");
-        }
-      } catch (error) {
-        setError("Oops an error occured!!. Try refreshing the page");
-      }
-    };
-
-    fetchData();
-  }, [currentPage]);
 
   return (
     <Master>
