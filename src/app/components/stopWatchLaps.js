@@ -34,7 +34,7 @@ const StopWatchLaps = (props) => {
                   : null
               }
             >
-              <span>Lap {index}</span>
+              <span>Lap {index + 1}</span>
               <div
                 dangerouslySetInnerHTML={{
                   __html: formatTimeStamp(stopWatchDetials.started, item),

@@ -10,7 +10,8 @@ const useHandleStopWatchEvents = (
   setError,
   runningStopWatches,
   fetchStopWatchDetails,
-  dispatch
+  dispatch,
+  stopWatchDetials
 ) => {
   const pauseOrResumeStopWatch = async () => {
     setProgress(true);
@@ -29,8 +30,8 @@ const useHandleStopWatchEvents = (
       setProgress(false);
       await fetchStopWatchDetails();
     } catch (error) {
-      console.log(error);
       setError("Unable to toggle stop watch!!. Try refreshing the page");
+      console.log(error);
       setProgress(false);
     }
   };
@@ -43,8 +44,8 @@ const useHandleStopWatchEvents = (
       setProgress(false);
       await fetchStopWatchDetails();
     } catch (error) {
-      console.log(error);
       setError("Unable to reset stop watch!!. Try refreshing the page");
+      console.log(error);
       setProgress(false);
     }
   };
@@ -56,8 +57,8 @@ const useHandleStopWatchEvents = (
       setProgress(false);
       history.push("/");
     } catch (error) {
-      console.log(error);
       setError("Unable to delete stop watch!!. Try refreshing the page");
+      console.log(error);
       setProgress(false);
     }
   };
@@ -70,8 +71,8 @@ const useHandleStopWatchEvents = (
       setProgress(false);
       await fetchStopWatchDetails();
     } catch (error) {
-      console.log(error);
       setError("Unable to create stop watch laps!!. Try refreshing the page");
+      console.log(error);
       setProgress(false);
     }
   };
