@@ -9,7 +9,8 @@ const useHandleStopWatchEvents = (
   setProgress,
   setError,
   runningStopWatches,
-  fetchStopWatchDetails
+  fetchStopWatchDetails,
+  dispatch
 ) => {
   const pauseOrResumeStopWatch = async () => {
     setProgress(true);

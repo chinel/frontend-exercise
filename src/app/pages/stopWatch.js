@@ -2,6 +2,7 @@ import React, { memo, useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import StopWatchLaps from "../components/stopWatchLaps";
 import { AppContext } from "../context/stopWatch.context";
+import useFetchStopWatch from "../helpers/useFetchStopWatch";
 import useHandleStopWatchEvents from "../helpers/useHandleStopWatchEvents";
 import {
   formatTimeStamp,
@@ -32,37 +33,23 @@ const StopWatchPage = () => {
   const history = useHistory();
   const { state, dispatch } = useContext(AppContext);
   const { id } = useParams();
-  const [stopWatchDetials, setStopWatchDetails] = useState(null);
   const [error, setError] = useState("");
   const [timer, setTimer] = useState(null);
   const [progress, setProgress] = useState(false);
   const runningStopWatches = state?.runningStopWatches;
+  const { fetchStopWatchDetails, stopWatchDetials } = useFetchStopWatch(
+    setError,
+    setTimer,
+    id
+  );
   const { createLaps, deleteWatch, pauseOrResumeStopWatch, resetWatch } =
     useHandleStopWatchEvents(
       setProgress,
       setError,
       runningStopWatches,
-      fetchStopWatchDetails
+      fetchStopWatchDetails,
+      dispatch
     );
-
-  const fetchStopWatchDetails = async () => {
-    try {
-      const data = await fetchStopWatch(id);
-      const res = await data.json();
-      if (data.ok) {
-        console.log(res);
-        setStopWatchDetails(res.result);
-        setTimer(res.result.started);
-        setError("");
-      }
-    } catch (error) {
-      setError("Oops an error occured!!. Try refreshing the page");
-    }
-  };
-
-  useEffect(() => {
-    fetchStopWatchDetails();
-  }, [id]);
 
   useEffect(() => {
     let interval;
