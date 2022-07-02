@@ -1,7 +1,6 @@
 import React, { memo, useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import StopWatchLaps from "../components/stopWatchLaps";
-import StopWatchTimer from "../components/timer";
 import { AppContext } from "../context/stopWatch.context";
 import {
   formatTimeStamp,

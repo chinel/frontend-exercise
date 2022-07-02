@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import StopWatchListItem from "../components/stopWatchListItem";
 import { AppContext } from "../context/stopWatch.context";
 import { formatTimeStamp } from "../helpers/utils";
 import Master from "../layout/master";
@@ -24,10 +25,6 @@ const HomePage = () => {
   const [stopWatches, setStopWatches] = useState([]);
   const [error, setError] = useState("");
   const [progress, setProgress] = useState(false);
-
-  const stopWatchDetails = (id) => {
-    history.push(`/stopWatch/${id}`);
-  };
 
   const newStopWatch = async () => {
     setProgress(true);
@@ -82,21 +79,11 @@ const HomePage = () => {
       <List>
         {stopWatches.length > 0 ? (
           stopWatches.map((item, index) => (
-            <ListItem
-              key={index}
-              onClick={() => stopWatchDetails(item.__id)}
-              dangerouslySetInnerHTML={{
-                __html: formatTimeStamp(item.started),
-              }}
-            ></ListItem>
+            <StopWatchListItem key={index} item={item} />
           ))
         ) : (
           <Loader />
         )}
-
-        {/* <ListItem active={true}>
-          Hello <PauseIcon />
-        </ListItem> */}
       </List>
 
       {stopWatches.length > 0 && currentPage !== totalPages && (
