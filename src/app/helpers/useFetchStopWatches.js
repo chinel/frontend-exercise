@@ -5,6 +5,7 @@ const useFetchStopWatches = (setError) => {
   const [totalPages, setTotalPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [stopWatches, setStopWatches] = useState([]);
+
   const fetchMoreStopWatches = () => {
     if (currentPage === totalPages) {
       return;
