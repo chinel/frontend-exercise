@@ -23,7 +23,8 @@ const StopWatchTimer = ({ stopWatchDetials, runningStopWatches }) => {
     return () => {
       clearInterval(interval);
     };
-  }, [timer, state]);
+  }, [timer, state, stopWatchDetials]);
+
   return (
     <Timer
       dangerouslySetInnerHTML={{
